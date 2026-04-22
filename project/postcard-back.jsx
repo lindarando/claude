@@ -74,9 +74,9 @@ function PostcardBack({
         </g>
 
         {/* bottom navy band */}
-        <rect x={0} y={H - 46} width={W} height={46} fill={`url(#topBand-${uid})`} />
-        <line x1={0} y1={H - 46} x2={W} y2={H - 46} stroke={red} strokeWidth={1.2} opacity={0.9} />
-        <line x1={0} y1={H - 49} x2={W} y2={H - 49} stroke={red} strokeWidth={0.4} opacity={0.5} />
+        <rect x={0} y={H - 60} width={W} height={60} fill={`url(#topBand-${uid})`} />
+        <line x1={0} y1={H - 60} x2={W} y2={H - 60} stroke={red} strokeWidth={1.2} opacity={0.9} />
+        <line x1={0} y1={H - 63} x2={W} y2={H - 63} stroke={red} strokeWidth={0.4} opacity={0.5} />
 
         {/* central vertical divider (postal convention) — dotted ink */}
         <line x1={W / 2} y1={64} x2={W / 2} y2={H - 64}
@@ -190,30 +190,30 @@ function PostcardBack({
         </g>
 
         {/* ═══ BOTTOM BAR (on navy) ═══ */}
-        <g transform={`translate(0 ${H - 46})`}>
-          <text x={24} y={20} fill={cream} fontStyle="italic"
+        <g transform={`translate(0 ${H - 60})`}>
+          <text x={24} y={22} fill={cream} fontStyle="italic"
                 style={{ font: 'italic 600 12px Recoleta, serif' }}>
             Hic sunt libri.
           </text>
-          <text x={24} y={34} fill={cream} opacity={0.65}
+          <text x={24} y={38} fill={cream} opacity={0.65}
                 style={{ font: '500 8.5px "DM Sans", sans-serif', letterSpacing: 1.5 }}>
             {creatureLatin}
           </text>
 
-          <text x={W / 2} y={20} textAnchor="middle" fill={yellow}
+          <text x={W / 2} y={22} textAnchor="middle" fill={yellow}
                 style={{ font: '700 11px Recoleta, serif', letterSpacing: 2 }}>
             {dateBig}
           </text>
-          <text x={W / 2} y={34} textAnchor="middle" fill={cream} opacity={0.65}
+          <text x={W / 2} y={38} textAnchor="middle" fill={cream} opacity={0.65}
                 style={{ font: '500 8.5px Recoleta, serif' }}>
             {dateSmall.split(' · ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' · ')}
           </text>
 
-          <text x={W - 24} y={20} textAnchor="end" fill={cream}
+          <text x={W - 24} y={22} textAnchor="end" fill={cream}
                 style={{ font: '700 10px "DM Sans", monospace', letterSpacing: 2 }}>
             SERIE {serial}
           </text>
-          <text x={W - 24} y={34} textAnchor="end" fill={yellow} opacity={0.9}
+          <text x={W - 24} y={38} textAnchor="end" fill={yellow} opacity={0.9}
                 style={{ font: '500 8.5px "DM Sans", sans-serif', letterSpacing: 1 }}>
             quest.ultimapagina.net
           </text>

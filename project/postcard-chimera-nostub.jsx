@@ -217,7 +217,7 @@ function NightCardChimeraNoStub({
         </g>
 
         {/* bottom info */}
-        <g transform={`translate(24 ${H - 22})`}>
+        <g transform={`translate(24 ${H - 32})`}>
           {(() => {
             const parts = bottomInfo.split(' · ');
             const first = parts[0] || '';

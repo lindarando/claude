@@ -243,7 +243,7 @@ function NightCardChimera({
           </text>
         </g>
 
-        <g transform={`translate(24 ${H - 22})`}>
+        <g transform={`translate(24 ${H - 32})`}>
           {(() => {
             const parts = bottomInfo.split(' · ');
             const first = parts[0] || '';
@@ -319,7 +319,7 @@ function NightCardChimera({
               TALLONE · ATTESTATO
             </text>
           </g>
-          <text x={stubW / 2 + 10} y={H - 18} textAnchor="middle" fill={cream} opacity={0.85}
+          <text x={stubW / 2 + 10} y={H - 28} textAnchor="middle" fill={cream} opacity={0.85}
                 style={{ font: '700 9px Recoleta, serif', letterSpacing: 3 }}>
             ULTIMA PAGINA
           </text>
