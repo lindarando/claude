@@ -122,8 +122,8 @@ function startServer() {
   console.log('Generating PDF...');
   await page.pdf({
     path: OUTPUT_PDF,
-    width: '180mm',
-    height: '120mm',
+    width: '154mm',
+    height: '111mm',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
     pageRanges: '1-6',

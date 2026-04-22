@@ -4,7 +4,7 @@
 // Right: address lines + stamp area (QR "Hic fui")
 
 function PostcardBack({
-  W = 700, H = 440,
+  W = 700, H = 505,
   latinDay = 'Dies Secundus',
   dayLabel = 'MERIDIES',
   dateBig = '16 · 05 · 2026',

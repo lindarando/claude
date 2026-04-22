@@ -4,7 +4,7 @@
 // chimera-3 = grifone rampante (dinamico)       → sabato / meridies
 
 function NightCardChimera({
-  W = 700, H = 440,
+  W = 700, H = 505,
   chimera = 'assets/chimera-3.png',
   ringStyle = 'dotted-orbit',  // none | astrolabe | latin-ring | dotted-orbit
   mottoText = 'HIC · SUNT · LIBRI · HIC · FUI · AD · MERIDIEM · ',
@@ -51,6 +51,7 @@ function NightCardChimera({
   const stubW = 168;
   const bodyW = W - stubW;
   const perfX = bodyW;
+  const stubShift = (H - 440) / 2;  // center fixed-Y stub content when H grows beyond the original 440
 
   let s = 2026;
   const rand = () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
@@ -157,10 +158,10 @@ function NightCardChimera({
 
       <g clipPath={`url(#clip-${uid})`}>
         <rect x={0} y={0} width={bodyW} height={H} fill={`url(#sky-${uid})`} />
-        <ellipse cx={bodyW * 0.56} cy={H * 0.58} rx={260} ry={200} fill={`url(#sun-${uid})`} opacity={0.8} />
+        <ellipse cx={bodyW * 0.56} cy={H * 0.56} rx={260} ry={200} fill={`url(#sun-${uid})`} opacity={0.8} />
         {stars}
 
-        <g transform={`translate(${bodyW * 0.56} ${H * 0.55})`}>
+        <g transform={`translate(${bodyW * 0.56} ${H * 0.48})`}>
           {/* cream disc */}
           <circle cx={0} cy={0} r={92} fill={cream} />
           {/* chimera image, clipped to the disc */}
@@ -270,50 +271,52 @@ function NightCardChimera({
         {/* stub */}
         <g transform={`translate(${perfX} 0)`}>
           <rect x={0} y={0} width={stubW} height={H} fill={`url(#stub-${uid})`} />
-          <rect x={14} y={14} width={stubW - 28} height={20} fill={yellow} />
-          <text x={stubW / 2} y={28} textAnchor="middle" fill={bgNavy}
-                style={{ font: '700 10px Recoleta, serif', letterSpacing: 4 }}>
-            HIC FUI
-          </text>
+          <g transform={`translate(0 ${stubShift})`}>
+            <rect x={14} y={14} width={stubW - 28} height={20} fill={yellow} />
+            <text x={stubW / 2} y={28} textAnchor="middle" fill={bgNavy}
+                  style={{ font: '700 10px Recoleta, serif', letterSpacing: 4 }}>
+              HIC FUI
+            </text>
+            <g transform={`translate(${stubW / 2 + 10} 130)`}>
+              <rect x={-42} y={-42} width={84} height={84} fill={cream} />
+              {window.renderQRDots({ size: 84, fill: bgNavy })}
+            </g>
+            <text x={stubW / 2 + 10} y={190} textAnchor="middle" fill={cream}
+                  style={{ font: '600 10px "DM Sans", sans-serif', letterSpacing: 1.5 }}>
+              <tspan x={stubW / 2 + 10} dy="0">SCARICA IL TUO</tspan>
+              <tspan x={stubW / 2 + 10} dy="14">ATTESTATO</tspan>
+            </text>
+            <g transform={`translate(${stubW / 2 + 10} 244)`}>
+              <line x1={-56} y1={-8} x2={56} y2={-8} stroke={cream} strokeWidth={0.3} opacity={0.25} />
+              <text y={4} textAnchor="middle" fill={cream} opacity={0.5}
+                    style={{ font: '500 7px "DM Sans", sans-serif', letterSpacing: 2 }}>
+                SERIE
+              </text>
+              <text y={22} textAnchor="middle" fill={yellow}
+                    style={{ font: '700 17px "DM Sans", monospace', letterSpacing: -0.5 }}>
+                {serial}
+              </text>
+              <line x1={-56} y1={32} x2={56} y2={32} stroke={cream} strokeWidth={0.3} opacity={0.25} />
+            </g>
+            <g transform={`translate(${stubW / 2 + 10} 302)`}>
+              <text y={0} textAnchor="middle" fill={cream} opacity={0.5}
+                    style={{ font: '500 7px "DM Sans", sans-serif', letterSpacing: 2 }}>
+                VALIDO IL
+              </text>
+              <text y={22} textAnchor="middle" fill={cream}
+                    style={{ font: '700 19px Recoleta, serif', letterSpacing: -0.5 }}>
+                {dateBig}
+              </text>
+              <text y={40} textAnchor="middle" fill={cream} opacity={0.55}
+                    style={{ font: 'italic 500 9px Recoleta, serif' }}>
+                {dateSmall.charAt(0).toUpperCase() + dateSmall.slice(1)}
+              </text>
+            </g>
+          </g>
           <g transform={`translate(16 ${H / 2 + 30}) rotate(-90)`}>
             <text textAnchor="middle" fill={cream} opacity={0.5}
                   style={{ font: '600 9px "DM Sans", sans-serif', letterSpacing: 5 }}>
               TALLONE · ATTESTATO
-            </text>
-          </g>
-          <g transform={`translate(${stubW / 2 + 10} 130)`}>
-            <rect x={-42} y={-42} width={84} height={84} fill={cream} />
-            {window.renderQRDots({ size: 84, fill: bgNavy })}
-          </g>
-          <text x={stubW / 2 + 10} y={190} textAnchor="middle" fill={cream}
-                style={{ font: '600 10px "DM Sans", sans-serif', letterSpacing: 1.5 }}>
-            <tspan x={stubW / 2 + 10} dy="0">SCARICA IL TUO</tspan>
-            <tspan x={stubW / 2 + 10} dy="14">ATTESTATO</tspan>
-          </text>
-          <g transform={`translate(${stubW / 2 + 10} 244)`}>
-            <line x1={-56} y1={-8} x2={56} y2={-8} stroke={cream} strokeWidth={0.3} opacity={0.25} />
-            <text y={4} textAnchor="middle" fill={cream} opacity={0.5}
-                  style={{ font: '500 7px "DM Sans", sans-serif', letterSpacing: 2 }}>
-              SERIE
-            </text>
-            <text y={22} textAnchor="middle" fill={yellow}
-                  style={{ font: '700 17px "DM Sans", monospace', letterSpacing: -0.5 }}>
-              {serial}
-            </text>
-            <line x1={-56} y1={32} x2={56} y2={32} stroke={cream} strokeWidth={0.3} opacity={0.25} />
-          </g>
-          <g transform={`translate(${stubW / 2 + 10} 302)`}>
-            <text y={0} textAnchor="middle" fill={cream} opacity={0.5}
-                  style={{ font: '500 7px "DM Sans", sans-serif', letterSpacing: 2 }}>
-              VALIDO IL
-            </text>
-            <text y={22} textAnchor="middle" fill={cream}
-                  style={{ font: '700 19px Recoleta, serif', letterSpacing: -0.5 }}>
-              {dateBig}
-            </text>
-            <text y={40} textAnchor="middle" fill={cream} opacity={0.55}
-                  style={{ font: 'italic 500 9px Recoleta, serif' }}>
-              {dateSmall.charAt(0).toUpperCase() + dateSmall.slice(1)}
             </text>
           </g>
           <text x={stubW / 2 + 10} y={H - 18} textAnchor="middle" fill={cream} opacity={0.85}
