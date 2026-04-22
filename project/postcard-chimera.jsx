@@ -279,7 +279,7 @@ function NightCardChimera({
             </text>
             <g transform={`translate(${stubW / 2 + 10} 130)`}>
               <rect x={-42} y={-42} width={84} height={84} fill={cream} />
-              {window.renderQRDots({ size: 84, fill: bgNavy })}
+              {window.renderQRDots({ size: 66, fill: bgNavy })}
             </g>
             <text x={stubW / 2 + 10} y={190} textAnchor="middle" fill={cream}
                   style={{ font: '600 10px "DM Sans", sans-serif', letterSpacing: 1.5 }}>
