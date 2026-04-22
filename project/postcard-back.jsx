@@ -58,32 +58,32 @@ function PostcardBack({
         <rect x={0} y={0} width={W} height={H} fill={`url(#paperBg-${uid})`} />
 
         {/* top navy band with the ULTIMA PAGINA QUEST marquee */}
-        <rect x={0} y={0} width={W} height={46} fill={`url(#topBand-${uid})`} />
+        <rect x={0} y={0} width={W} height={70} fill={`url(#topBand-${uid})`} />
         <g>
-          <text x={24} y={28} fill={cream} opacity={0.92}
+          <text x={40} y={40} fill={cream} opacity={0.92}
                 style={{ font: '400 9px "DM Sans", sans-serif', letterSpacing: 3 }}>
             ULTIMA PAGINA QUEST · <tspan style={{ fontWeight: 600 }}>Nº {cardNumber}</tspan>
           </text>
-          <text x={W - 24} y={28} textAnchor="end" fill={yellow}
+          <text x={W - 40} y={40} textAnchor="end" fill={yellow}
                 style={{ font: '700 9px "DM Sans", sans-serif', letterSpacing: 3 }}>
             {latinDay.toUpperCase()} · {dayLabel}
           </text>
           {/* little hairline below the band, in red */}
-          <line x1={0} y1={46} x2={W} y2={46} stroke={red} strokeWidth={1.2} opacity={0.9} />
-          <line x1={0} y1={49} x2={W} y2={49} stroke={red} strokeWidth={0.4} opacity={0.5} />
+          <line x1={0} y1={70} x2={W} y2={70} stroke={red} strokeWidth={1.2} opacity={0.9} />
+          <line x1={0} y1={73} x2={W} y2={73} stroke={red} strokeWidth={0.4} opacity={0.5} />
         </g>
 
         {/* bottom navy band */}
-        <rect x={0} y={H - 60} width={W} height={60} fill={`url(#topBand-${uid})`} />
-        <line x1={0} y1={H - 60} x2={W} y2={H - 60} stroke={red} strokeWidth={1.2} opacity={0.9} />
-        <line x1={0} y1={H - 63} x2={W} y2={H - 63} stroke={red} strokeWidth={0.4} opacity={0.5} />
+        <rect x={0} y={H - 70} width={W} height={70} fill={`url(#topBand-${uid})`} />
+        <line x1={0} y1={H - 70} x2={W} y2={H - 70} stroke={red} strokeWidth={1.2} opacity={0.9} />
+        <line x1={0} y1={H - 73} x2={W} y2={H - 73} stroke={red} strokeWidth={0.4} opacity={0.5} />
 
         {/* central vertical divider (postal convention) — dotted ink */}
-        <line x1={W / 2} y1={64} x2={W / 2} y2={H - 64}
+        <line x1={W / 2} y1={86} x2={W / 2} y2={H - 86}
               stroke={bgNavy} strokeWidth={0.5} opacity={0.35} strokeDasharray="1.5 4" />
 
         {/* ═══ LEFT: MESSAGE AREA ═══ */}
-        <g transform="translate(30 72)">
+        <g transform="translate(42 94)">
           <text x={0} y={0} fill={bgNavy}
                 style={{ font: '700 8.5px "DM Sans", sans-serif', letterSpacing: 2.5 }}>
             EPISTULA · <tspan style={{ fontWeight: 400 }}>MESSAGGIO</tspan>
@@ -99,22 +99,22 @@ function PostcardBack({
 
           {/* ruled lines for writing — ink on paper */}
           {Array.from({ length: 7 }).map((_, i) => (
-            <line key={i} x1={0} y1={68 + i * 28} x2={290} y2={68 + i * 28}
+            <line key={i} x1={0} y1={68 + i * 28} x2={270} y2={68 + i * 28}
                   stroke={inkSoft} strokeWidth={0.35} opacity={0.45} />
           ))}
 
           {/* signature area */}
-          <text x={0} y={284} fill={bgNavy} opacity={0.7}
+          <text x={0} y={272} fill={bgNavy} opacity={0.7}
                 style={{ font: '500 8px "DM Sans", sans-serif', letterSpacing: 2 }}>
             EXPLORATORIS MANU · DI MIO PUGNO
           </text>
-          <line x1={0} y1={300} x2={180} y2={300} stroke={inkSoft} strokeWidth={0.4} opacity={0.55} />
+          <line x1={0} y1={288} x2={180} y2={288} stroke={inkSoft} strokeWidth={0.4} opacity={0.55} />
         </g>
 
         {/* ═══ RIGHT: ADDRESS + STAMP ═══ */}
-        <g transform={`translate(${W / 2 + 28} 72)`}>
+        <g transform={`translate(${W / 2 + 28} 94)`}>
           {/* "stamp" = QR nel riquadro tipo francobollo */}
-          <g transform="translate(214 0)">
+          <g transform="translate(196 0)">
             {/* frame: navy on cream paper */}
             <rect x={0} y={0} width={90} height={96} fill={bgNavy} />
             <rect x={3} y={3} width={84} height={90} fill={cream} />
@@ -183,37 +183,37 @@ function PostcardBack({
             <line x1={0} y1={8} x2={17} y2={8} stroke={red} strokeWidth={1.6} />
             {/* 4 address lines */}
             {Array.from({ length: 4 }).map((_, i) => (
-              <line key={i} x1={0} y1={40 + i * 32} x2={308} y2={40 + i * 32}
+              <line key={i} x1={0} y1={40 + i * 32} x2={274} y2={40 + i * 32}
                     stroke={inkSoft} strokeWidth={0.4} opacity={0.5} />
             ))}
           </g>
         </g>
 
         {/* ═══ BOTTOM BAR (on navy) ═══ */}
-        <g transform={`translate(0 ${H - 60})`}>
-          <text x={24} y={22} fill={cream} fontStyle="italic"
+        <g transform={`translate(0 ${H - 70})`}>
+          <text x={40} y={24} fill={cream} fontStyle="italic"
                 style={{ font: 'italic 600 12px Recoleta, serif' }}>
             Hic sunt libri.
           </text>
-          <text x={24} y={38} fill={cream} opacity={0.65}
+          <text x={40} y={40} fill={cream} opacity={0.65}
                 style={{ font: '500 8.5px "DM Sans", sans-serif', letterSpacing: 1.5 }}>
             {creatureLatin}
           </text>
 
-          <text x={W / 2} y={22} textAnchor="middle" fill={yellow}
+          <text x={W / 2} y={24} textAnchor="middle" fill={yellow}
                 style={{ font: '700 11px Recoleta, serif', letterSpacing: 2 }}>
             {dateBig}
           </text>
-          <text x={W / 2} y={38} textAnchor="middle" fill={cream} opacity={0.65}
+          <text x={W / 2} y={40} textAnchor="middle" fill={cream} opacity={0.65}
                 style={{ font: '500 8.5px Recoleta, serif' }}>
             {dateSmall.split(' · ').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' · ')}
           </text>
 
-          <text x={W - 24} y={22} textAnchor="end" fill={cream}
+          <text x={W - 40} y={24} textAnchor="end" fill={cream}
                 style={{ font: '700 10px "DM Sans", monospace', letterSpacing: 2 }}>
             SERIE {serial}
           </text>
-          <text x={W - 24} y={38} textAnchor="end" fill={yellow} opacity={0.9}
+          <text x={W - 40} y={40} textAnchor="end" fill={yellow} opacity={0.9}
                 style={{ font: '500 8.5px "DM Sans", sans-serif', letterSpacing: 1 }}>
             quest.ultimapagina.net
           </text>

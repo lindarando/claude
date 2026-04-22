@@ -204,12 +204,12 @@ function NightCardChimera({
 
         {/* top */}
         <g>
-          <text x={24} y={34} fill={cream} opacity={0.9}
+          <text x={40} y={40} fill={cream} opacity={0.9}
                 style={{ font: '400 9px "DM Sans", sans-serif', letterSpacing: 3 }}>
             ULTIMA PAGINA QUEST · <tspan style={{ fontWeight: 600 }}>Nº {cardNumber}</tspan>
           </text>
-          <line x1={24} y1={44} x2={bodyW - 24} y2={44} stroke={cream} strokeWidth={0.3} opacity={0.25} />
-          <text x={bodyW - 24} y={34} textAnchor="end" fill={yellow}
+          <line x1={40} y1={50} x2={bodyW - 40} y2={50} stroke={cream} strokeWidth={0.3} opacity={0.25} />
+          <text x={bodyW - 40} y={40} textAnchor="end" fill={yellow}
                 style={{ font: '700 9px "DM Sans", sans-serif', letterSpacing: 3 }}>
             {daySide}
           </text>
@@ -217,18 +217,18 @@ function NightCardChimera({
 
         {/* title */}
         <g>
-          <text x={24} y={H - 102} fill={cream}
+          <text x={40} y={H - 102} fill={cream}
                 style={{ font: '600 32px Recoleta, serif', letterSpacing: -1 }}>
             Hic sunt
           </text>
-          <text x={24} y={H - 54} fill={yellow} fontStyle="italic"
+          <text x={40} y={H - 54} fill={yellow} fontStyle="italic"
                 style={{ font: 'italic 700 54px Recoleta, serif', letterSpacing: -2 }}>
             libri.
           </text>
         </g>
 
         {/* creature label */}
-        <g transform={`translate(${bodyW - 24} ${H - 76})`}>
+        <g transform={`translate(${bodyW - 40} ${H - 76})`}>
           <text x={0} y={0} textAnchor="end" fill={yellow} opacity={0.9}
                 style={{ font: '600 8.5px "DM Sans", sans-serif', letterSpacing: 2.5 }}>
             {latinDay.toUpperCase()} · {dayLabel}
@@ -243,7 +243,7 @@ function NightCardChimera({
           </text>
         </g>
 
-        <g transform={`translate(24 ${H - 32})`}>
+        <g transform={`translate(40 ${H - 40})`}>
           {(() => {
             const parts = bottomInfo.split(' · ');
             const first = parts[0] || '';
