@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Single Card Render</title>
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #000; overflow: hidden; width: 100vw; height: 100vh; }
+    body { font-family: 'DM Sans', sans-serif; }
+    .card { width: 100vw; aspect-ratio: 700/440; background: #000; }
+    #root, #root svg { width: 100%; height: 100%; display: block; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="card"><div id="root"></div></div>
+
+  <script type="text/babel" src="qr-matrix.jsx"></script>
+  <script type="text/babel" src="postcard-chimera.jsx"></script>
+  <script type="text/babel" src="postcard-back.jsx"></script>
+  <script type="text/babel">
+    const days = {
+      ven: { chimera: 'assets/chimera-1.png', cardNumber:'01 / 03', latinDay:'Dies Primus', dayLabel:'AURORA', serial:'1 · 15.05.26', dateBig:'15 · 05 · 2026', dateSmall:'aurora', bottomInfo:'VENERDÌ 15 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin:'Gryphus Custos', creatureIt:"Lettorǝ dell'alba", mottoText:'HIC · SUNT · LIBRI · HIC · FUI · AD · AURORAM · ', constellation:'aurora', daySide:'AURORA · AD AURORAM' },
+      sab: { chimera: 'assets/chimera-3.png', cardNumber:'02 / 03', latinDay:'Dies Secundus', dayLabel:'MERIDIES', serial:'2 · 16.05.26', dateBig:'16 · 05 · 2026', dateSmall:'meridies', bottomInfo:'SABATO 16 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin:'Gryphus Lector', creatureIt:'Lettorǝ meridianǝ', mottoText:'HIC · SUNT · LIBRI · HIC · FUI · AD · MERIDIEM · ', constellation:'meridies', daySide:'MERIDIES · AD MERIDIEM' },
+      dom: { chimera: 'assets/chimera-2.png', cardNumber:'03 / 03', latinDay:'Dies Tertius', dayLabel:'VESPER', serial:'3 · 17.05.26', dateBig:'17 · 05 · 2026', dateSmall:'vespro', bottomInfo:'DOMENICA 17 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin:'Gryphus Meditans', creatureIt:'Lettorǝ del tramonto', mottoText:'HIC · SUNT · LIBRI · HIC · FUI · AD · VESPERAM · ', constellation:'vesper', daySide:'VESPER · AD VESPERAM' },
+    };
+    const backProps = (d) => ({
+      latinDay: d.latinDay, dayLabel: d.dayLabel, dateBig: d.dateBig,
+      dateSmall: `${d.bottomInfo.split(' ')[0].toLowerCase()} · ${d.dateSmall}`,
+      creatureLatin: d.creatureLatin, serial: d.serial, cardNumber: d.cardNumber,
+      mottoText: 'DE LIBRIS NIHIL NISI BONUM',
+    });
+
+    // Pre-fetch chimera PNGs → data URLs so html-to-image can rasterize them
+    window.__chimeraCache = {};
+    async function preloadChimeras() {
+      const paths = ['assets/chimera-1.png','assets/chimera-2.png','assets/chimera-3.png'];
+      for (const p of paths) {
+        const res = await fetch(p);
+        const blob = await res.blob();
+        const fr = new FileReader();
+        window.__chimeraCache[p] = await new Promise(r => { fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+      }
+    }
+
+    window.renderCard = function(which) {
+      const [day, side] = which.split('-'); // e.g. 'ven-front' / 'sab-back'
+      const d = { ...days[day] };
+      d.chimera = window.__chimeraCache[d.chimera] || d.chimera;
+      const root = document.getElementById('root');
+      // unmount by replacing
+      root.innerHTML = '';
+      const r = ReactDOM.createRoot(root);
+      if (side === 'front') r.render(<NightCardChimera {...d} ringStyle="latin-ring" />);
+      else r.render(<PostcardBack {...backProps(d)} />);
+    };
+
+    // Default render after chimeras preloaded
+    preloadChimeras().then(() => {
+      const qs = new URLSearchParams(location.search);
+      const which = qs.get('card') || 'ven-back';
+      window.renderCard(which);
+    });
+  </script>
+</body>
+</html>

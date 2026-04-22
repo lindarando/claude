@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cartoline · print-ready (A6 · bleed 3mm · crocini)</title>
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <style>
+    /* Trim 160×100mm · bleed 3mm · page 180×120mm (bleed+7mm per crocini) */
+    :root {
+      --trim-w: 160mm; --trim-h: 100mm;
+      --bleed-w: 166mm; --bleed-h: 106mm;
+      --page-w: 180mm; --page-h: 120mm;
+      --mark-gap: 3mm; --mark-len: 4mm; --th: 0.25mm;
+    }
+    html, body { margin: 0; padding: 0; background: #BBB; font-family: 'DM Sans', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { width: var(--page-w); height: var(--page-h); margin: 8mm auto; background: #FFF; position: relative; page-break-after: always; break-after: page; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .bleed { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: var(--bleed-w); height: var(--bleed-h); overflow: hidden; background: #000; }
+    .bleed > div { width: 100%; height: 100%; }
+    .bleed svg { display: block; width: 100%; height: 100%; }
+    /* crop marks — 8 short lines, just outside trim box */
+    .m { position: absolute; background: #000; }
+    .m.th { calc(var(--th)); }
+    .tl-h, .tr-h, .bl-h, .br-h { width: var(--mark-len); height: var(--th); }
+    .tl-v, .tr-v, .bl-v, .br-v { width: var(--th); height: var(--mark-len); }
+    .tl-h { top: calc((var(--page-h) - var(--trim-h))/2 - var(--mark-gap)); left: calc((var(--page-w) - var(--trim-w))/2 - var(--mark-len)); }
+    .tl-v { top: calc((var(--page-h) - var(--trim-h))/2 - var(--mark-len)); left: calc((var(--page-w) - var(--trim-w))/2 - var(--mark-gap)); }
+    .tr-h { top: calc((var(--page-h) - var(--trim-h))/2 - var(--mark-gap)); left: calc((var(--page-w) + var(--trim-w))/2); }
+    .tr-v { top: calc((var(--page-h) - var(--trim-h))/2 - var(--mark-len)); left: calc((var(--page-w) + var(--trim-w))/2 + var(--mark-gap)); }
+    .bl-h { top: calc((var(--page-h) + var(--trim-h))/2 + var(--mark-gap)); left: calc((var(--page-w) - var(--trim-w))/2 - var(--mark-len)); }
+    .bl-v { top: calc((var(--page-h) + var(--trim-h))/2); left: calc((var(--page-w) - var(--trim-w))/2 - var(--mark-gap)); }
+    .br-h { top: calc((var(--page-h) + var(--trim-h))/2 + var(--mark-gap)); left: calc((var(--page-w) + var(--trim-w))/2); }
+    .br-v { top: calc((var(--page-h) + var(--trim-h))/2); left: calc((var(--page-w) + var(--trim-w))/2 + var(--mark-gap)); }
+    .info { position: absolute; left: 8mm; bottom: 4mm; font: 500 6pt "DM Sans", sans-serif; color: #666; letter-spacing: 1px; }
+    @media print {
+      @page { size: 180mm 120mm; margin: 0; }
+      html, body { background: #FFF; }
+      .page { margin: 0; box-shadow: none; }
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page"><div class="bleed"><div id="p1"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">1/6 · VEN FRONTE · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+  <div class="page"><div class="bleed"><div id="p2"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">2/6 · VEN RETRO · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+  <div class="page"><div class="bleed"><div id="p3"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">3/6 · SAB FRONTE · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+  <div class="page"><div class="bleed"><div id="p4"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">4/6 · SAB RETRO · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+  <div class="page"><div class="bleed"><div id="p5"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">5/6 · DOM FRONTE · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+  <div class="page"><div class="bleed"><div id="p6"></div></div>
+    <div class="m tl-h"></div><div class="m tl-v"></div><div class="m tr-h"></div><div class="m tr-v"></div><div class="m bl-h"></div><div class="m bl-v"></div><div class="m br-h"></div><div class="m br-v"></div>
+    <div class="info">6/6 · DOM RETRO · 160×100mm · bleed 3mm · crocini · RGB</div></div>
+
+  <script type="text/babel" src="qr-matrix.jsx"></script>
+  <script type="text/babel" src="postcard-chimera.jsx"></script>
+  <script type="text/babel" src="postcard-back.jsx"></script>
+  <script type="text/babel">
+    // ━━━ Bleed wrapper ━━━
+    // The card SVG has viewBox 0..700 × 0..440. To bleed 3mm we extend by
+    // 13.125 SVG units on each side (since 700 units = 160mm → 1mm = 4.375 units).
+    // We render the card's SVG as-is but wrap it in an outer <svg> with extended
+    // viewBox. The bleed area is filled: navy everywhere except the middle cream
+    // strip on left/right. Front + back both work the same since both have
+    // full-bleed navy top/bottom bands (front) or cream middle (back).
+    const BLEED = 13.125;
+    function BleedWrap({ children, bgMode }) {
+      const W = 700, H = 440, b = BLEED;
+      const navy = '#002740';
+      const cream = '#F1ECE3';
+      // bgMode: 'front' (navy full-bleed, paper strip in middle) or 'back' (cream everywhere with navy top/bottom bands)
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox={`${-b} ${-b} ${W + 2*b} ${H + 2*b}`} preserveAspectRatio="xMidYMid slice">
+          {/* bleed fill underneath */}
+          <rect x={-b} y={-b} width={W + 2*b} height={H + 2*b} fill={bgMode === 'back' ? cream : navy} />
+          {bgMode === 'back' && (<>
+            {/* extend top navy band (y 0..46) and bottom navy band (y H-46..H) into bleed */}
+            <rect x={-b} y={-b} width={W + 2*b} height={46 + b} fill={navy} />
+            <rect x={-b} y={H - 46} width={W + 2*b} height={46 + b} fill={navy} />
+          </>)}
+          {bgMode === 'front' && (<>
+            {/* the front is already full-bleed navy, just ensure the cream paper region doesn't bleed — nothing to add */}
+          </>)}
+          {/* the actual card content, unchanged, drawn inside 0..W × 0..H */}
+          {children}
+        </svg>
+      );
+    }
+
+    const days = {
+      ven: { chimera: 'assets/chimera-1.png', cardNumber: '01 / 03', daySide: 'AURORA · AD AURORAM', latinDay: 'Dies Primus', dayLabel: 'AURORA', serial: '1 · 15.05.26', dateBig: '15 · 05 · 2026', dateSmall: 'aurora', bottomInfo: 'VENERDÌ 15 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin: 'Gryphus Custos', creatureIt: "Lettorǝ dell'alba", mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · AURORAM · ', constellation: 'aurora' },
+      sab: { chimera: 'assets/chimera-3.png', cardNumber: '02 / 03', daySide: 'MERIDIES · AD MERIDIEM', latinDay: 'Dies Secundus', dayLabel: 'MERIDIES', serial: '2 · 16.05.26', dateBig: '16 · 05 · 2026', dateSmall: 'meridies', bottomInfo: 'SABATO 16 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin: 'Gryphus Lector', creatureIt: 'Lettorǝ meridianǝ', mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · MERIDIEM · ', constellation: 'meridies' },
+      dom: { chimera: 'assets/chimera-2.png', cardNumber: '03 / 03', daySide: 'VESPER · AD VESPERAM', latinDay: 'Dies Tertius', dayLabel: 'VESPER', serial: '3 · 17.05.26', dateBig: '17 · 05 · 2026', dateSmall: 'vespro', bottomInfo: 'DOMENICA 17 MAGGIO 2026 · SALONE DEL LIBRO · TORINO', creatureLatin: 'Gryphus Meditans', creatureIt: 'Lettorǝ del tramonto', mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · VESPERAM · ', constellation: 'vesper' },
+    };
+    const backProps = (d) => ({
+      latinDay: d.latinDay, dayLabel: d.dayLabel, dateBig: d.dateBig,
+      dateSmall: `${d.bottomInfo.split(' ')[0].toLowerCase()} · ${d.dateSmall}`,
+      creatureLatin: d.creatureLatin, serial: d.serial, cardNumber: d.cardNumber,
+      mottoText: 'DE LIBRIS NIHIL NISI BONUM',
+    });
+
+    // Render each card normally — the existing SVG already extends to full viewport,
+    // so we just let the .bleed container's overflow:hidden clip it. The 3mm bleed
+    // is achieved by scaling the card SVG to the bleed size (166×106mm) rather
+    // than the trim (160×100mm). Since the card's background is edge-to-edge
+    // (navy on front, cream on back), the 3mm extension picks up the correct
+    // color automatically.
+    ReactDOM.createRoot(document.getElementById('p1')).render(<NightCardChimera {...days.ven} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p2')).render(<PostcardBack {...backProps(days.ven)} />);
+    ReactDOM.createRoot(document.getElementById('p3')).render(<NightCardChimera {...days.sab} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p4')).render(<PostcardBack {...backProps(days.sab)} />);
+    ReactDOM.createRoot(document.getElementById('p5')).render(<NightCardChimera {...days.dom} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p6')).render(<PostcardBack {...backProps(days.dom)} />);
+
+    (async () => { try { await document.fonts.ready; } catch(_) {} setTimeout(() => window.print(), 900); })();
+  </script>
+</body>
+</html>

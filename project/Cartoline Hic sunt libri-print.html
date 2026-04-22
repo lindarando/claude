@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cartoline · PDF</title>
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #FFF; color: #111; }
+    body { font-family: 'DM Sans', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page {
+      width: 1400px;
+      height: 990px;
+      margin: 0 auto;
+      background: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      break-after: page;
+      page-break-after: always;
+    }
+    .page:last-child { break-after: auto; page-break-after: auto; }
+    .card {
+      width: 1260px;
+      aspect-ratio: 700/440;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .page-tag {
+      position: absolute;
+      top: 28px;
+      left: 40px;
+      font: 600 12px "DM Sans", sans-serif;
+      letter-spacing: 3px;
+      color: rgba(0,0,0,0.45);
+      text-transform: uppercase;
+    }
+    .page-num {
+      position: absolute;
+      top: 28px;
+      right: 40px;
+      font: 600 12px "DM Sans", sans-serif;
+      letter-spacing: 2px;
+      color: rgba(0,0,0,0.45);
+    }
+    @media print {
+      @page { size: 1400px 990px; margin: 0; }
+      body { background: #FFF; }
+      .page { box-shadow: none; margin: 0; }
+      .card { box-shadow: none; border-radius: 0; }
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="page"><div class="page-tag">Venerdì · Dies Primus · Fronte</div><div class="page-num">1 / 6</div><div class="card"><div id="p1"></div></div></div>
+  <div class="page"><div class="page-tag">Venerdì · Dies Primus · Retro</div><div class="page-num">2 / 6</div><div class="card"><div id="p2"></div></div></div>
+  <div class="page"><div class="page-tag">Sabato · Dies Secundus · Fronte</div><div class="page-num">3 / 6</div><div class="card"><div id="p3"></div></div></div>
+  <div class="page"><div class="page-tag">Sabato · Dies Secundus · Retro</div><div class="page-num">4 / 6</div><div class="card"><div id="p4"></div></div></div>
+  <div class="page"><div class="page-tag">Domenica · Dies Tertius · Fronte</div><div class="page-num">5 / 6</div><div class="card"><div id="p5"></div></div></div>
+  <div class="page"><div class="page-tag">Domenica · Dies Tertius · Retro</div><div class="page-num">6 / 6</div><div class="card"><div id="p6"></div></div></div>
+
+  <script type="text/babel" src="qr-matrix.jsx"></script>
+  <script type="text/babel" src="postcard-chimera.jsx"></script>
+  <script type="text/babel" src="postcard-back.jsx"></script>
+  <script type="text/babel">
+    const days = {
+      ven: {
+        chimera: 'assets/chimera-1.png',
+        cardNumber: '01 / 03', daySide: 'AURORA · AD AURORAM',
+        latinDay: 'Dies Primus', dayLabel: 'AURORA', serial: '1 · 15.05.26',
+        dateBig: '15 · 05 · 2026', dateSmall: 'aurora',
+        bottomInfo: 'VENERDÌ 15 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Gryphus Custos', creatureIt: "Lettorǝ dell'alba",
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · AURORAM · ',
+        constellation: 'aurora',
+      },
+      sab: {
+        chimera: 'assets/chimera-3.png',
+        cardNumber: '02 / 03', daySide: 'MERIDIES · AD MERIDIEM',
+        latinDay: 'Dies Secundus', dayLabel: 'MERIDIES', serial: '2 · 16.05.26',
+        dateBig: '16 · 05 · 2026', dateSmall: 'meridies',
+        bottomInfo: 'SABATO 16 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Gryphus Lector', creatureIt: 'Lettorǝ meridianǝ',
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · MERIDIEM · ',
+        constellation: 'meridies',
+      },
+      dom: {
+        chimera: 'assets/chimera-2.png',
+        cardNumber: '03 / 03', daySide: 'VESPER · AD VESPERAM',
+        latinDay: 'Dies Tertius', dayLabel: 'VESPER', serial: '3 · 17.05.26',
+        dateBig: '17 · 05 · 2026', dateSmall: 'vespro',
+        bottomInfo: 'DOMENICA 17 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Gryphus Meditans', creatureIt: 'Lettorǝ del tramonto',
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · VESPERAM · ',
+        constellation: 'vesper',
+      },
+    };
+    const backProps = (d) => ({
+      latinDay: d.latinDay, dayLabel: d.dayLabel,
+      dateBig: d.dateBig,
+      dateSmall: `${d.bottomInfo.split(' ')[0].toLowerCase()} · ${d.dateSmall}`,
+      creatureLatin: d.creatureLatin, serial: d.serial, cardNumber: d.cardNumber,
+      mottoText: 'DE LIBRIS NIHIL NISI BONUM',
+    });
+    ReactDOM.createRoot(document.getElementById('p1')).render(<NightCardChimera {...days.ven} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p2')).render(<PostcardBack {...backProps(days.ven)} />);
+    ReactDOM.createRoot(document.getElementById('p3')).render(<NightCardChimera {...days.sab} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p4')).render(<PostcardBack {...backProps(days.sab)} />);
+    ReactDOM.createRoot(document.getElementById('p5')).render(<NightCardChimera {...days.dom} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('p6')).render(<PostcardBack {...backProps(days.dom)} />);
+
+    // Auto-print after fonts + React render settle
+    (async () => {
+      try { await document.fonts.ready; } catch(_) {}
+      setTimeout(() => window.print(), 700);
+    })();
+  </script>
+</body>
+</html>

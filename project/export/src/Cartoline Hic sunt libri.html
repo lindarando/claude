@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cartoline · Hic sunt libri</title>
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <meta name="ext-resource-dependency" content="assets/chimera-1.png" data-resource-id="chimera1">
+  <meta name="ext-resource-dependency" content="assets/chimera-2.png" data-resource-id="chimera2">
+  <meta name="ext-resource-dependency" content="assets/chimera-3.png" data-resource-id="chimera3">
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#002740"/>
+      <circle cx="50" cy="50" r="22" fill="#FDC548"/>
+      <text x="50" y="56" text-anchor="middle" font-family="serif" font-size="22" font-weight="700" fill="#002740">HL</text>
+    </svg>
+  </template>
+  <style>
+    html, body { margin: 0; padding: 0; background: #06080F; color: #F5EEDD; }
+    body { font-family: 'DM Sans', sans-serif; }
+
+    .root { min-height: 100vh; padding: 56px 40px 120px; }
+    .head { max-width: 1320px; margin: 0 auto 40px; }
+    .head .eyebrow { font: 600 11px Recoleta,serif; letter-spacing: 3px; text-transform: uppercase; color: #FDC548; margin-bottom: 10px; }
+    .head h1 { font: 700 48px Recoleta,serif; letter-spacing: -1.5px; margin: 0 0 14px; color: #F5EEDD; }
+    .head h1 i { color: #FDC548; font-style: italic; font-weight: 700; }
+    .head p { font-size: 14px; line-height: 1.65; max-width: 760px; color: rgba(245,238,221,0.72); margin: 0; }
+
+    /* FLAT VIEW — 3 cards, front + back stacked */
+    .flat { max-width: 1320px; margin: 0 auto 96px; }
+    .flat-head { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid rgba(245,238,221,0.15); padding-bottom: 10px; margin-bottom: 24px; }
+    .flat-head h2 { font: 700 22px Recoleta,serif; color: #FDC548; margin: 0; letter-spacing: 0; }
+    .flat-head span { font-size: 11px; letter-spacing: 2px; color: rgba(245,238,221,0.55); text-transform: uppercase; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+    .col { display: flex; flex-direction: column; gap: 18px; }
+    .col-lbl { display: flex; justify-content: space-between; align-items: baseline; font-size: 10px; color: rgba(245,238,221,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
+    .col-lbl b { font: 700 15px Recoleta,serif; letter-spacing: 0; text-transform: none; color: #F5EEDD; }
+    .card { aspect-ratio: 700/440; border-radius: 6px; overflow: hidden; background: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 16px 44px rgba(0,0,0,0.55); }
+    .face-lbl { font-size: 9px; letter-spacing: 2.5px; color: rgba(245,238,221,0.4); text-transform: uppercase; margin: -6px 0 -2px; }
+
+    /* MOCKUP VIEW — rotated, stacked, table */
+    .mock {
+      max-width: 1320px; margin: 0 auto;
+      background: radial-gradient(ellipse at 50% 50%, #1C1814 0%, #080605 85%);
+      padding: 80px 40px 110px; border-radius: 12px;
+      position: relative; overflow: hidden;
+    }
+    .mock::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(253,197,72,0.06), transparent 40%);
+      pointer-events: none;
+    }
+    .mock-head { text-align: center; margin-bottom: 60px; }
+    .mock-head .eyebrow { font: 600 10px Recoleta,serif; letter-spacing: 3px; text-transform: uppercase; color: #FDC548; margin-bottom: 8px; }
+    .mock-head h3 { font: 700 26px Recoleta,serif; color: #F5EEDD; margin: 0; }
+    .mock-stage { display: flex; justify-content: center; align-items: center; gap: 60px; flex-wrap: wrap; perspective: 1400px; }
+    .mock-card {
+      width: 340px; aspect-ratio: 700/440; border-radius: 4px; overflow: hidden;
+      box-shadow:
+        0 2px 2px rgba(0,0,0,0.3),
+        0 10px 30px rgba(0,0,0,0.5),
+        0 30px 80px rgba(0,0,0,0.45);
+      transform-style: preserve-3d;
+    }
+    .mock-card.tilt-1 { transform: rotate(-4deg) translateY(4px); }
+    .mock-card.tilt-2 { transform: rotate(1.5deg) translateY(-2px); }
+    .mock-card.tilt-3 { transform: rotate(-2deg) translateY(6px); }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="root">
+    <div class="head">
+      <div class="eyebrow">Deliverable finale · 3 cartoline · A6 orizzontale · fronte+retro</div>
+      <h1>Hic sunt <i>libri.</i></h1>
+      <p>Ultima Pagina Quest · Salone del Libro di Torino 2026. Tre cartoline da collezione: <b>venerdì 15, sabato 16, domenica 17 maggio</b>. Ognuna ha una costellazione diversa (Aurora/Meridies/Vesper), una chimera diversa dentro il medaglione-luna, un colore-accento nel sigillo di serie (teal/rosso/giallo). Motto circolare intorno al medaglione come sigillo commemorativo.</p>
+    </div>
+
+    <!-- FLAT VIEW -->
+    <div class="flat">
+      <div class="flat-head">
+        <h2>Vista piatta · da stampa</h2>
+        <span>700 × 440 px · rapporto A6 orizzontale · fronte + retro</span>
+      </div>
+      <div class="row3">
+        <div class="col">
+          <div class="col-lbl"><span>Venerdì 15 maggio</span><b>Dies Primus</b></div>
+          <div class="face-lbl">Fronte</div>
+          <div class="card"><div id="f1"></div></div>
+          <div class="face-lbl">Retro</div>
+          <div class="card"><div id="b1"></div></div>
+        </div>
+        <div class="col">
+          <div class="col-lbl"><span>Sabato 16 maggio</span><b>Dies Secundus</b></div>
+          <div class="face-lbl">Fronte</div>
+          <div class="card"><div id="f2"></div></div>
+          <div class="face-lbl">Retro</div>
+          <div class="card"><div id="b2"></div></div>
+        </div>
+        <div class="col">
+          <div class="col-lbl"><span>Domenica 17 maggio</span><b>Dies Tertius</b></div>
+          <div class="face-lbl">Fronte</div>
+          <div class="card"><div id="f3"></div></div>
+          <div class="face-lbl">Retro</div>
+          <div class="card"><div id="b3"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOCKUP VIEW -->
+    <div class="mock">
+      <div class="mock-head">
+        <div class="eyebrow">Sul tavolo · tre giornate di caccia</div>
+        <h3>Le cartoline ritirate al desk UP</h3>
+      </div>
+      <div class="mock-stage">
+        <div class="mock-card tilt-1"><div id="m1"></div></div>
+        <div class="mock-card tilt-2"><div id="m2"></div></div>
+        <div class="mock-card tilt-3"><div id="m3"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/babel" src="postcard-chimera.jsx"></script>
+  <script type="text/babel" src="postcard-back.jsx"></script>
+  <script type="text/babel">
+    const days = {
+      ven: {
+        chimera: window.__resources.chimera1,
+        cardNumber: '01 / 03',
+        daySide: 'AURORA · AD AURORAM',
+        latinDay: 'Dies Primus',
+        dayLabel: 'AURORA',
+        serial: '1 · 15.05.26',
+        dateBig: '15 · 05 · 2026',
+        dateSmall: 'aurora',
+        bottomInfo: 'VENERDÌ 15 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Gryphus custos',
+        creatureIt: "il lettore dell'alba",
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · AURORAM · ',
+        constellation: 'aurora',
+      },
+      sab: {
+        chimera: window.__resources.chimera3,
+        cardNumber: '02 / 03',
+        daySide: 'MERIDIES · AD MERIDIEM',
+        latinDay: 'Dies Secundus',
+        dayLabel: 'MERIDIES',
+        serial: '2 · 16.05.26',
+        dateBig: '16 · 05 · 2026',
+        dateSmall: 'meridies',
+        bottomInfo: 'SABATO 16 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Gryphus lector',
+        creatureIt: 'il lettore meridiano',
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · MERIDIEM · ',
+        constellation: 'meridies',
+      },
+      dom: {
+        chimera: window.__resources.chimera2,
+        cardNumber: '03 / 03',
+        daySide: 'VESPER · AD VESPERAM',
+        latinDay: 'Dies Tertius',
+        dayLabel: 'VESPER',
+        serial: '3 · 17.05.26',
+        dateBig: '17 · 05 · 2026',
+        dateSmall: 'vespro',
+        bottomInfo: 'DOMENICA 17 MAGGIO 2026 · SALONE DEL LIBRO · TORINO',
+        creatureLatin: 'Leo meditans',
+        creatureIt: 'il lettore del tramonto',
+        mottoText: 'HIC · SUNT · LIBRI · HIC · FUI · AD · VESPERAM · ',
+        constellation: 'vesper',
+      },
+    };
+    const backProps = (d) => ({
+      latinDay: d.latinDay, dayLabel: d.dayLabel,
+      dateBig: d.dateBig, dateSmall: `${d.bottomInfo.split(' ')[0].toLowerCase()} · ${d.dateSmall}`,
+      creatureLatin: d.creatureLatin, serial: d.serial, cardNumber: d.cardNumber,
+      mottoText: 'DE LIBRIS NIL NISI BONUM',
+    });
+
+    // Flat
+    ReactDOM.createRoot(document.getElementById('f1')).render(<NightCardChimera {...days.ven} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('b1')).render(<PostcardBack {...backProps(days.ven)} />);
+    ReactDOM.createRoot(document.getElementById('f2')).render(<NightCardChimera {...days.sab} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('b2')).render(<PostcardBack {...backProps(days.sab)} />);
+    ReactDOM.createRoot(document.getElementById('f3')).render(<NightCardChimera {...days.dom} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('b3')).render(<PostcardBack {...backProps(days.dom)} />);
+
+    // Mockup
+    ReactDOM.createRoot(document.getElementById('m1')).render(<NightCardChimera {...days.ven} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('m2')).render(<NightCardChimera {...days.sab} ringStyle="latin-ring" />);
+    ReactDOM.createRoot(document.getElementById('m3')).render(<NightCardChimera {...days.dom} ringStyle="latin-ring" />);
+  </script>
+</body>
+</html>
