@@ -62,16 +62,6 @@ function NightCardChimera({
     stars.push(<circle key={i} cx={x} cy={y} r={r}
       fill={b > 0.92 ? yellow : cream} opacity={b * 0.8 + 0.2} />);
   }
-  const twinkles = [];
-  for (let i = 0; i < 6; i++) {
-    const x = rand() * bodyW, y = rand() * H * 0.7;
-    twinkles.push(
-      <g key={i} opacity={0.85}>
-        <line x1={x - 3} y1={y} x2={x + 3} y2={y} stroke={yellow} strokeWidth={0.8} />
-        <line x1={x} y1={y - 3} x2={x} y2={y + 3} stroke={yellow} strokeWidth={0.8} />
-      </g>
-    );
-  }
   const grain = [];
   for (let i = 0; i < 700; i++) {
     grain.push(<circle key={i} cx={rand() * W} cy={rand() * H} r={rand() * 0.5 + 0.15}
@@ -169,7 +159,6 @@ function NightCardChimera({
         <rect x={0} y={0} width={bodyW} height={H} fill={`url(#sky-${uid})`} />
         <ellipse cx={bodyW * 0.56} cy={H * 0.58} rx={260} ry={200} fill={`url(#sun-${uid})`} opacity={0.8} />
         {stars}
-        {twinkles}
 
         <g transform={`translate(${bodyW * 0.56} ${H * 0.55})`}>
           {/* cream disc */}
