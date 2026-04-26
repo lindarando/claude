@@ -1,10 +1,8 @@
-// Render each anta HTML with bleed only on the sides where it's actually needed:
-// - manifesto, lettore (left of their lato): bleed on Left + Top + Bottom (101x216mm)
-// - bundle, studio (middle):                bleed on Top + Bottom only (98x216mm)
-// - copertina, backoffice (right):          bleed on Right + Top + Bottom (101x216mm)
-//
-// Inner side has NO bleed because the seams between panels are folds (not cuts):
-// adjacent panels meet exactly at the fold line, no overlap, no visible "ghost" line.
+// Render each anta as a PNG at exact pixel dimensions (no PDF mm/pt conversion gaps).
+// Uses 508 DPI -> exactly 20 px/mm for clean integer math:
+//   left/right anta:  101mm × 216mm = 2020 × 4320 px
+//   middle anta:       98mm × 216mm = 1960 × 4320 px
+//   composed lato:    300mm × 216mm = 6000 × 4320 px (= 2020 + 1960 + 2020 ✓)
 
 const puppeteer = require('/opt/node22/lib/node_modules/puppeteer');
 const http = require('http');
@@ -17,7 +15,9 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 
 const QR_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'qr-matrix.json'), 'utf8'));
 
-// position: 'left' | 'middle' | 'right'
+const DPI = 508;             // 20 px/mm exact
+const PX_PER_MM = DPI / 25.4; // = 20
+
 const ANTAS = [
   { name: 'manifesto',  position: 'left'   },
   { name: 'bundle',     position: 'middle' },
@@ -50,16 +50,27 @@ function startServer() {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   for (const { name, position } of ANTAS) {
+    const widthMm = position === 'middle' ? 98 : 101;
+    const heightMm = 216;
+    const widthPx  = widthMm  * PX_PER_MM;  // 1960 or 2020
+    const heightPx = heightMm * PX_PER_MM;  // 4320
+
+    // Use a CSS-px viewport at base 96 DPI then scale up via deviceScaleFactor.
+    // 1mm @ 96 DPI = 96/25.4 = 3.7795 CSS px. Scale factor = PX_PER_MM / (96/25.4) = 20 / 3.7795 = 5.2917.
+    const cssWidthPx  = widthMm  * 96 / 25.4;
+    const cssHeightPx = heightMm * 96 / 25.4;
+    const scale = PX_PER_MM / (96 / 25.4);
+
     const page = await browser.newPage();
     page.on('pageerror', err => console.error(`[${name}] PAGE EXCEPTION:`, err.message));
-    await page.setViewport({ width: 1100, height: 1000, deviceScaleFactor: 2 });
+    await page.setViewport({
+      width:  Math.round(cssWidthPx),
+      height: Math.round(cssHeightPx),
+      deviceScaleFactor: scale,
+    });
     await page.goto(`http://127.0.0.1:${port}/html/${name}.html`, { waitUntil: 'networkidle0', timeout: 30000 });
 
-    const widthMm = position === 'middle' ? 98 : 101;
-    const heightMm = 216;  // 210 + 3 top + 3 bottom
-
-    await page.evaluate((qrData, position, widthMm) => {
-      // Replace decorative QR with real one (only on copertina; safe no-op elsewhere)
+    await page.evaluate((qrData, position) => {
       const fakeQr = document.querySelector('.qr-svg');
       if (fakeQr) {
         const { size, matrix } = qrData;
@@ -83,16 +94,7 @@ function startServer() {
 
       const anta = document.querySelector('.anta');
       if (!anta) throw new Error('.anta not found');
-
-      const bleedPx = 3 * 96 / 25.4;       // 11.339
-      const fullWPx = widthMm * 96 / 25.4; // 393 (left/right) or 370 (middle)
-      const fullHPx = 216 * 96 / 25.4;     // 817
-
-      // Adjust .anta-content padding to keep visible content positioned correctly
-      // Original anta is 370x794 (98x210mm). New size has +/- bleed.
-      // For 'left' position: extra padding-left = bleedPx, padding-top = bleedPx, padding-bottom = bleedPx
-      // For 'middle': padding-top = bleedPx, padding-bottom = bleedPx (no horizontal padding adjust)
-      // For 'right': padding-right = bleedPx, padding-top = bleedPx, padding-bottom = bleedPx
+      const bleedPx = 3 * 96 / 25.4;
       const content = anta.querySelector('.anta-content');
       if (content) {
         const cs = getComputedStyle(content);
@@ -104,8 +106,8 @@ function startServer() {
         if (position === 'right') pr += bleedPx;
         content.style.setProperty('padding', `${pt}px ${pr}px ${pb}px ${pl}px`, 'important');
       }
-      anta.style.setProperty('width', `${fullWPx}px`, 'important');
-      anta.style.setProperty('height', `${fullHPx}px`, 'important');
+      anta.style.setProperty('width',  '100%', 'important');
+      anta.style.setProperty('height', '100%', 'important');
       anta.style.setProperty('border-radius', '0', 'important');
       anta.style.setProperty('box-shadow', 'none', 'important');
       anta.style.setProperty('margin', '0', 'important');
@@ -113,20 +115,20 @@ function startServer() {
       anta.parentNode.removeChild(anta);
       document.body.innerHTML = '';
       document.body.appendChild(anta);
-      document.body.style.cssText = `margin:0; padding:0; background:transparent; width:${fullWPx}px; height:${fullHPx}px; overflow:hidden;`;
-      document.documentElement.style.cssText = 'margin:0; padding:0;';
-    }, QR_DATA, position, widthMm);
+      document.body.style.cssText = 'margin:0; padding:0; background:transparent; width:100vw; height:100vh; overflow:hidden;';
+      document.documentElement.style.cssText = 'margin:0; padding:0; width:100%; height:100%;';
+    }, QR_DATA, position);
 
     await new Promise(r => setTimeout(r, 1500));
-    const outPath = path.join(OUT_DIR, `${name}.pdf`);
-    await page.pdf({
+    const outPath = path.join(OUT_DIR, `${name}.png`);
+    await page.screenshot({
       path: outPath,
-      width: `${widthMm}mm`, height: `${heightMm}mm`,
-      printBackground: true,
-      margin: { top: 0, right: 0, bottom: 0, left: 0 },
-      preferCSSPageSize: false,
+      type: 'png',
+      omitBackground: false,
+      fullPage: false,
+      clip: { x: 0, y: 0, width: cssWidthPx, height: cssHeightPx },
     });
-    console.log(`✓ ${name}.pdf (${widthMm}x${heightMm}mm, ${position})`);
+    console.log(`✓ ${name}.png (${widthPx}x${heightPx} @ 508 DPI, ${position})`);
     await page.close();
   }
   await browser.close();
