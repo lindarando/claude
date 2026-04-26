@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="UTF-8"><title>Backoffice</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ECECEC;
+    padding: 50px 30px;
+    min-height: 100vh;
+  }
+  .header { max-width: 1100px; margin: 0 auto 40px; text-align: center; }
+  .header h1 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+  .header p { font-size: 13px; color: #777; max-width: 680px; margin: 0 auto; line-height: 1.5; }
+  .row { display: flex; justify-content: center; align-items: flex-start; max-width: 1200px; margin: 0 auto 40px; }
+  .anta-block { display: flex; flex-direction: column; align-items: center; }
+  .anta-label { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .anta-tag-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; color: #999; margin-bottom: 22px; }
+  .anta {
+    width: 370px; height: 794px; border-radius: 3px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.06);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .anta-content {
+    position: relative; z-index: 2; flex: 1;
+    display: flex; flex-direction: column;
+    padding: 28px 24px 24px;
+  }
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .logo-img {
+    height: 22px;
+    width: auto;
+    display: block;
+  }
+  .module-tag {
+    font-size: 9px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px; border-radius: 100px;
+    display: flex; align-items: center; gap: 5px;
+    border: 1px solid;
+  }
+  .module-tag::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+  }
+  .perforated-line {
+    margin: 16px -24px 18px; height: 1px;
+  }
+  .scale-note { font-size: 10px; color: #aaa; margin-top: 10px; font-style: italic; }
+
+.anta-label { color: #BE1558; }
+.anta {
+  color: #fff;
+  box-shadow: 0 24px 60px rgba(190, 21, 88, 0.25), 0 8px 20px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.anta::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 78% 18%, rgba(244, 201, 93, 0.20) 0%, transparent 55%),
+    radial-gradient(ellipse at 18% 92%, rgba(232, 88, 141, 0.15) 0%, transparent 50%),
+    linear-gradient(165deg, #BE1558 0%, #8E1A53 50%, #5A1340 100%);
+}
+.anta::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+.module-tag { border-color: rgba(244, 201, 93, 0.7); color: #F4C95D; }
+.module-tag::before { background: #F4C95D; }
+.perforated-line {
+  background-image: repeating-linear-gradient(to right, rgba(244, 201, 93, 0.45) 0, rgba(244, 201, 93, 0.45) 4px, transparent 4px, transparent 9px);
+}
+.kicker { font-size: 9px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: #F4C95D; margin-bottom: 12px; }
+.headline { font-family: 'Fraunces', serif; font-size: 28px; line-height: 1.05; font-weight: 600; margin-bottom: 20px; letter-spacing: -0.6px; }
+.headline em { font-style: italic; color: #F4C95D; font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
+.chip { font-size: 9.5px; padding: 5px 10px; background: rgba(255, 255, 255, 0.13); border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 100px; font-weight: 500; }
+.chip-ai { background: rgba(244, 201, 93, 0.15); border-color: rgba(244, 201, 93, 0.4); color: #F4C95D; }
+.quote { border-left: 2px solid #F4C95D; padding: 4px 0 4px 12px; margin-bottom: 18px; }
+.quote-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 12.5px; line-height: 1.4; margin-bottom: 5px; }
+.quote-attr { font-size: 9.5px; color: rgba(244, 201, 93, 0.88); }
+.ai-box { background: rgba(0, 0, 0, 0.22); border: 1px solid rgba(244, 201, 93, 0.3); border-radius: 6px; padding: 10px 12px; margin-bottom: 18px; }
+.ai-box-title { font-size: 8.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #F4C95D; margin-bottom: 5px; }
+.ai-box-text { font-size: 9px; line-height: 1.42; color: rgba(255,255,255,0.85); }
+.pricing-area { margin-top: auto; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.28); position: relative; }
+.pricing-area::before, .pricing-area::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); position: absolute; top: -3.5px; }
+.pricing-area::before { left: 0; }
+.pricing-area::after { right: 0; }
+.pricing-label { font-size: 9px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: #F4C95D; margin-bottom: 7px; }
+.pricing-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.price-old { font-family: 'Fraunces', serif; font-size: 17px; color: rgba(255,255,255,0.5); text-decoration: line-through; }
+.price-new { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; color: #F4C95D; letter-spacing: -1px; line-height: 1; }
+.price-period { font-size: 12px; color: rgba(255,255,255,0.7); font-style: italic; }
+.closing-claim { font-family: 'Fraunces', serif; font-style: italic; font-size: 12.5px; color: rgba(255,255,255,0.92); margin-top: 4px; line-height: 1.4; }
+</style></head><body>
+<div class="header"><h1>Backoffice — anta interna dx</h1><p>Per autorə in self publishing, palette crimson.</p></div>
+<div class="row"><div class="anta-block">
+<div class="anta-label">Backoffice</div><div class="anta-tag-label">Anta dx interna</div>
+<div class="anta"><div class="anta-content">
+<div class="top-bar"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwMCIgem9vbUFuZFBhbj0ibWFnbmlmeSIgdmlld0JveD0iMCAwIDE1MDAgMzgzLjAzOTk4IiBoZWlnaHQ9IjUwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmVyc2lvbj0iMS4wIj48ZGVmcz48Zy8+PC9kZWZzPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQuOTI3OTksIDI2Ni45NDIxOTcpIj48Zz48cGF0aCBkPSJNIDk0LjE1NjI1IDMuMjUgQyA3Ny43MjY1NjIgMy4yNSA2My4xNjAxNTYgLTAuMzUxNTYyIDUwLjQ1MzEyNSAtNy41NjI1IEMgMzcuNzQyMTg4IC0xNC43Njk1MzEgMjcuODIwMzEyIC0yNC43MjY1NjIgMjAuNjg3NSAtMzcuNDM3NSBDIDEzLjU2MjUgLTUwLjE0NDUzMSAxMCAtNjQuNzg5MDYyIDEwIC04MS4zNzUgQyAxMCAtOTcuOTU3MDMxIDEzLjU2MjUgLTExMi42MDE1NjIgMjAuNjg3NSAtMTI1LjMxMjUgQyAyNy44MjAzMTIgLTEzOC4wMTk1MzEgMzcuNzAzMTI1IC0xNDcuOTc2NTYyIDUwLjMyODEyNSAtMTU1LjE4NzUgQyA2Mi45NjA5MzggLTE2Mi4zOTQ1MzEgNzcuNSAtMTY2IDkzLjkzNzUgLTE2NiBDIDEwNy43MjY1NjIgLTE2NiAxMjAuMzU5Mzc1IC0xNjMuMzYzMjgxIDEzMS44MjgxMjUgLTE1OC4wOTM3NSBDIDE0My4yOTY4NzUgLTE1Mi44MjAzMTIgMTUyLjk0MTQwNiAtMTQ1LjM3ODkwNiAxNjAuNzY1NjI1IC0xMzUuNzY1NjI1IEMgMTY4LjU5NzY1NiAtMTI2LjE2MDE1NiAxNzQuMDY2NDA2IC0xMTQuODQ3NjU2IDE3Ny4xNzE4NzUgLTEwMS44MjgxMjUgTCAxMzkuMDMxMjUgLTEwMS44MjgxMjUgQyAxMzUuOTM3NSAtMTEwLjgxNjQwNiAxMzAuNDM3NSAtMTE3LjkwNjI1IDEyMi41MzEyNSAtMTIzLjA5Mzc1IEMgMTE0LjYyNSAtMTI4LjI4OTA2MiAxMDUuNDc2NTYyIC0xMzAuODkwNjI1IDk1LjA5Mzc1IC0xMzAuODkwNjI1IEMgODUuOTQ1MzEyIC0xMzAuODkwNjI1IDc3Ljc2OTUzMSAtMTI4Ljc5Njg3NSA3MC41NjI1IC0xMjQuNjA5Mzc1IEMgNjMuMzUxNTYyIC0xMjAuNDI5Njg4IDU3LjczNDM3NSAtMTE0LjYxNzE4OCA1My43MDMxMjUgLTEwNy4xNzE4NzUgQyA0OS42NzE4NzUgLTk5LjczNDM3NSA0Ny42NTYyNSAtOTEuMTMyODEyIDQ3LjY1NjI1IC04MS4zNzUgQyA0Ny42NTYyNSAtNzEuNjEzMjgxIDQ5LjY3MTg3NSAtNjMuMDA3ODEyIDUzLjcwMzEyNSAtNTUuNTYyNSBDIDU3LjczNDM3NSAtNDguMTI1IDYzLjMxMjUgLTQyLjMxMjUgNzAuNDM3NSAtMzguMTI1IEMgNzcuNTcwMzEyIC0zMy45NDUzMTIgODUuNzEwOTM4IC0zMS44NTkzNzUgOTQuODU5Mzc1IC0zMS44NTkzNzUgQyAxMDUuNTU0Njg4IC0zMS44NTkzNzUgMTE0LjkyOTY4OCAtMzQuNjA5Mzc1IDEyMi45ODQzNzUgLTQwLjEwOTM3NSBDIDEzMS4wNDY4NzUgLTQ1LjYwOTM3NSAxMzYuNzg1MTU2IC01My4wMDc4MTIgMTQwLjIwMzEyNSAtNjIuMzEyNSBMIDE3OC4zMjgxMjUgLTYyLjMxMjUgQyAxNzUuNjkxNDA2IC00OS4xMzI4MTIgMTcwLjQyMTg3NSAtMzcuNjI1IDE2Mi41MTU2MjUgLTI3Ljc4MTI1IEMgMTU0LjYwOTM3NSAtMTcuOTM3NSAxNDQuODAwNzgxIC0xMC4zMDA3ODEgMTMzLjA5Mzc1IC00Ljg3NSBDIDEyMS4zOTQ1MzEgMC41MzkwNjIgMTA4LjQxNDA2MiAzLjI1IDk0LjE1NjI1IDMuMjUgWiBNIDk0LjE1NjI1IDMuMjUgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzMuMjUwMDUsIDI2Ni45NDIxOTcpIj48Zz48cGF0aCBkPSJNIDIuMDkzNzUgMCBMIDY2LjczNDM3NSAtMTYyLjc1IEwgMTAzIC0xNjIuNzUgTCAxNjcuNjI1IDAgTCAxMjguMTA5Mzc1IDAgTCAxMTcuMTg3NSAtMjguMTI1IEwgNTIuNTQ2ODc1IC0yOC4xMjUgTCA0MS42MjUgMCBaIE0gNjIuMDc4MTI1IC01Ny4xODc1IEwgMTA3Ljg3NSAtNTcuMTg3NSBMIDg0Ljg1OTM3NSAtMTE2LjcxODc1IFogTSA2Mi4wNzgxMjUgLTU3LjE4NzUgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MjMuNjY5NDQzLCAyNjYuOTQyMTk3KSI+PGc+PHBhdGggZD0iTSA1OC41OTM3NSAwIEwgNTguNTkzNzUgLTEyOC4xMDkzNzUgTCA2Ljk2ODc1IC0xMjguMTA5Mzc1IEwgNi45Njg3NSAtMTYyLjc1IEwgMTQ3LjE3MTg3NSAtMTYyLjc1IEwgMTQ3LjE3MTg3NSAtMTI4LjEwOTM3NSBMIDk1LjU2MjUgLTEyOC4xMDkzNzUgTCA5NS41NjI1IDAgWiBNIDU4LjU5Mzc1IDAgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTguNTExMjI5LCAyNjYuOTQyMTk3KSI+PGc+PHBhdGggZD0iTSAyLjA5Mzc1IDAgTCA2Ni43MzQzNzUgLTE2Mi43NSBMIDEwMyAtMTYyLjc1IEwgMTY3LjYyNSAwIEwgMTI4LjEwOTM3NSAwIEwgMTE3LjE4NzUgLTI4LjEyNSBMIDUyLjU0Njg3NSAtMjguMTI1IEwgNDEuNjI1IDAgWiBNIDYyLjA3ODEyNSAtNTcuMTg3NSBMIDEwNy44NzUgLTU3LjE4NzUgTCA4NC44NTkzNzUgLTExNi43MTg3NSBaIE0gNjIuMDc4MTI1IC01Ny4xODc1ICIvPjwvZz48L2c+PC9nPjxnIGZpbGw9IiNmNGM5NWQiIGZpbGwtb3BhY2l0eT0iMSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzg4LjkzODg4NSwgMjY2Ljk0MjE5NykiPjxnPjxwYXRoIGQ9Ik0gNDUuMzQzNzUgLTMwIEMgMzQuNjQ0NTMxIC0zMCAyNS45NjA5MzggLTMzLjI4OTA2MiAxOS4yOTY4NzUgLTM5Ljg3NSBDIDEyLjYyODkwNiAtNDYuNDU3MDMxIDkuMjk2ODc1IC01NC43ODkwNjIgOS4yOTY4NzUgLTY0Ljg3NSBDIDkuMjk2ODc1IC03MS41MzEyNSAxMC44MDQ2ODggLTc3LjQ5MjE4OCAxMy44MjgxMjUgLTgyLjc2NTYyNSBDIDE2Ljg1OTM3NSAtODguMDM1MTU2IDIxLjA4MjAzMSAtOTIuMjE4NzUgMjYuNSAtOTUuMzEyNSBDIDMxLjkyNTc4MSAtOTguNDE0MDYyIDM4LjIwNzAzMSAtOTkuOTY4NzUgNDUuMzQzNzUgLTk5Ljk2ODc1IEMgNTIuMzEyNSAtOTkuOTY4NzUgNTguNDY4NzUgLTk4LjQxNDA2MiA2My44MTI1IC05NS4zMTI1IEMgNjkuMTY0MDYyIC05Mi4yMTg3NSA3My4zOTA2MjUgLTg4LjAzNTE1NiA3Ni40ODQzNzUgLTgyLjc2NTYyNSBDIDc5LjU4NTkzOCAtNzcuNDkyMTg4IDgxLjE0MDYyNSAtNzEuNTMxMjUgODEuMTQwNjI1IC02NC44NzUgQyA4MS4xNDA2MjUgLTU4LjIwNzAzMSA3OS41ODU5MzggLTUyLjIzODI4MSA3Ni40ODQzNzUgLTQ2Ljk2ODc1IEMgNzMuMzkwNjI1IC00MS42OTUzMTIgNjkuMTY0MDYyIC0zNy41NTA3ODEgNjMuODEyNSAtMzQuNTMxMjUgQyA1OC40Njg3NSAtMzEuNTA3ODEyIDUyLjMxMjUgLTMwIDQ1LjM0Mzc1IC0zMCBaIE0gNDUuMzQzNzUgLTMwICIvPjwvZz48L2c+PC9nPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODk5Ljg0ODQwNiwgMjY2Ljk0MjE5NykiPjxnPjxwYXRoIGQ9Ik0gMTkuNTMxMjUgMCBMIDE5LjUzMTI1IC0xNjIuNzUgTCA1Ni41IC0xNjIuNzUgTCA1Ni41IC0zNC42NDA2MjUgTCAxMjcuNjQwNjI1IC0zNC42NDA2MjUgTCAxMjcuNjQwNjI1IDAgWiBNIDE5LjUzMTI1IDAgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDU0LjQ2MjUwMiwgMjY2Ljk0MjE5NykiPjxnPjxwYXRoIGQ9Ik0gMTkuNTMxMjUgMCBMIDE5LjUzMTI1IC0xNjIuNzUgTCA1Ni41IC0xNjIuNzUgTCA1Ni41IDAgWiBNIDE5LjUzMTI1IDAgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTUxLjE4MzYzMSwgMjY2Ljk0MjE5NykiPjxnPjxwYXRoIGQ9Ik0gNzYuMjY1NjI1IDMuMjUgQyA2Mi42MTcxODggMy4yNSA1MC44NzUgMS4wMDM5MDYgNDEuMDMxMjUgLTMuNDg0Mzc1IEMgMzEuMTg3NSAtNy45ODQzNzUgMjMuNTkzNzUgLTE0LjM3ODkwNiAxOC4yNSAtMjIuNjcxODc1IEMgMTIuOTA2MjUgLTMwLjk2MDkzOCAxMC4yMzQzNzUgLTQwLjY4NzUgMTAuMjM0Mzc1IC01MS44NDM3NSBMIDQ2LjUgLTUxLjg0Mzc1IEMgNDYuNSAtNDQuMDkzNzUgNDkuMTcxODc1IC0zOC4wNDY4NzUgNTQuNTE1NjI1IC0zMy43MDMxMjUgQyA1OS44NjcxODggLTI5LjM2NzE4OCA2Ny4wMzkwNjIgLTI3LjIwMzEyNSA3Ni4wMzEyNSAtMjcuMjAzMTI1IEMgODMuNzgxMjUgLTI3LjIwMzEyNSA4OS44OTg0MzggLTI4LjcxMDkzOCA5NC4zOTA2MjUgLTMxLjczNDM3NSBDIDk4Ljg5MDYyNSAtMzQuNzUzOTA2IDEwMS4xNDA2MjUgLTM4Ljk3NjU2MiAxMDEuMTQwNjI1IC00NC40MDYyNSBDIDEwMS4xNDA2MjUgLTUwLjE0NDUzMSA5OC40MjU3ODEgLTU0Ljc5Njg3NSA5MyAtNTguMzU5Mzc1IEMgODcuNTcwMzEyIC02MS45MjE4NzUgNzkuMTI1IC02NC45NDE0MDYgNjcuNjU2MjUgLTY3LjQyMTg3NSBDIDQ4LjU5Mzc1IC03MS40NTMxMjUgMzQuNDg4MjgxIC03Ny41NzAzMTIgMjUuMzQzNzUgLTg1Ljc4MTI1IEMgMTYuMTk1MzEyIC05NCAxMS42MjUgLTEwNC42OTUzMTIgMTEuNjI1IC0xMTcuODc1IEMgMTEuNjI1IC0xMzIuNzU3ODEyIDE3LjA0Njg3NSAtMTQ0LjUgMjcuODkwNjI1IC0xNTMuMDkzNzUgQyAzOC43NDIxODggLTE2MS42OTUzMTIgNTMuNTUwNzgxIC0xNjYgNzIuMzEyNSAtMTY2IEMgODUuMTc1NzgxIC0xNjYgOTYuMzMyMDMxIC0xNjMuNzg5MDYyIDEwNS43ODEyNSAtMTU5LjM3NSBDIDExNS4yMzgyODEgLTE1NC45NTcwMzEgMTIyLjU2MjUgLTE0OC43NTc4MTIgMTI3Ljc1IC0xNDAuNzgxMjUgQyAxMzIuOTQ1MzEyIC0xMzIuODAwNzgxIDEzNS41NDY4NzUgLTEyMy4zMDQ2ODggMTM1LjU0Njg3NSAtMTEyLjI5Njg3NSBMIDk5Ljk2ODc1IC0xMTIuMjk2ODc1IEMgOTkuOTY4NzUgLTExOS41NzgxMjUgOTcuNTY2NDA2IC0xMjUuMzEyNSA5Mi43NjU2MjUgLTEyOS41IEMgODcuOTYwOTM4IC0xMzMuNjg3NSA4MS4yOTY4NzUgLTEzNS43ODEyNSA3Mi43NjU2MjUgLTEzNS43ODEyNSBDIDY1LjAxNTYyNSAtMTM1Ljc4MTI1IDU4Ljg5MDYyNSAtMTM0LjI2OTUzMSA1NC4zOTA2MjUgLTEzMS4yNSBDIDQ5Ljg5ODQzOCAtMTI4LjIyNjU2MiA0Ny42NTYyNSAtMTI0LjAwMzkwNiA0Ny42NTYyNSAtMTE4LjU3ODEyNSBDIDQ3LjY1NjI1IC0xMTMuNjE3MTg4IDUwLjEzMjgxMiAtMTA5LjQyOTY4OCA1NS4wOTM3NSAtMTA2LjAxNTYyNSBDIDYwLjA2MjUgLTEwMi42MDkzNzUgNjguNzQyMTg4IC05OS40Mjk2ODggODEuMTQwNjI1IC05Ni40ODQzNzUgQyAxMDEuNDQxNDA2IC05MS42Nzk2ODggMTE2LjA4NTkzOCAtODUuMjUgMTI1LjA3ODEyNSAtNzcuMTg3NSBDIDEzNC4wNjY0MDYgLTY5LjEyNSAxMzguNTYyNSAtNTguNjYwMTU2IDEzOC41NjI1IC00NS43OTY4NzUgQyAxMzguNTYyNSAtMzAuNDUzMTI1IDEzMy4wMTk1MzEgLTE4LjQ0MTQwNiAxMjEuOTM3NSAtOS43NjU2MjUgQyAxMTAuODYzMjgxIC0xLjA4NTkzOCA5NS42NDA2MjUgMy4yNSA3Ni4yNjU2MjUgMy4yNSBaIE0gNzYuMjY1NjI1IDMuMjUgIi8+PC9nPjwvZz48L2c+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIxIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzIwLjkxMDMyMiwgMjY2Ljk0MjE5NykiPjxnPjxwYXRoIGQ9Ik0gNTguNTkzNzUgMCBMIDU4LjU5Mzc1IC0xMjguMTA5Mzc1IEwgNi45Njg3NSAtMTI4LjEwOTM3NSBMIDYuOTY4NzUgLTE2Mi43NSBMIDE0Ny4xNzE4NzUgLTE2Mi43NSBMIDE0Ny4xNzE4NzUgLTEyOC4xMDkzNzUgTCA5NS41NjI1IC0xMjguMTA5Mzc1IEwgOTUuNTYyNSAwIFogTSA1OC41OTM3NSAwICIvPjwvZz48L2c+PC9nPjwvc3ZnPg==" alt="CataList" class="logo-img"><div class="module-tag">Backoffice</div></div>
+<div class="perforated-line"></div>
+<div class="kicker">Per autorə in self publishing</div>
+<h2 class="headline">Un posto per tutti i tuoi <em>libri</em>, e per chi li <em>cerca</em>.</h2>
+<div class="chips">
+<div class="chip">Pagina autore</div><div class="chip">Catalogo</div><div class="chip">Wallet card e QR</div><div class="chip">ARC e codici</div><div class="chip">Serie e universi</div><div class="chip chip-ai">Analisi AI*</div>
+</div>
+<div class="quote">
+<div class="quote-text">«Finalmente smetto di tenere gli ISBN in un foglio Google del 2019.»</div>
+<div class="quote-attr">— tutti gli autori self, prima o poi</div>
+</div>
+<div class="ai-box">
+<div class="ai-box-title">* Sull'AI</div>
+<div class="ai-box-text">L'analisi AI si attiva solo se e quando la chiedi tu, e solo sul manoscritto che decidi tu. I tuoi testi non vengono usati in alcun modo per il training dell'intelligenza artificiale.</div>
+</div>
+<div class="pricing-area">
+<div class="pricing-label">Early Bird</div>
+<div class="pricing-row"><span class="price-old">€79</span><span class="price-new">€59</span><span class="price-period">/anno</span></div>
+<div class="closing-claim">Questo prezzo è tuo, se lo blocchi ora.</div>
+</div>
+</div></div>
+<div class="scale-note">In scala 1:1 (98 × 210 mm)</div>
+</div></div>
+</body></html>
