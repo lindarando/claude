@@ -70,12 +70,15 @@ def compose_lato(name, antas):
     """antas: list of 3 anta names, in left-to-right order."""
     writer = PdfWriter()
     page = writer.add_blank_page(width=PAGE_W_MM * mm, height=PAGE_H_MM * mm)
-    # PDF coord origin is bottom-left. Anta PDFs are 104x216mm full-page.
-    # We place anta i at x=i*98mm, y=0 (full-height).
+    # Layout (no overlaps — fold seams sit exactly between adjacent panels):
+    #   anta 0 (left, 101x216):   x = 0..101mm     (3mm of left bleed + 98mm content)
+    #   anta 1 (middle, 98x216):  x = 101..199mm   (98mm content, no L/R bleed)
+    #   anta 2 (right, 101x216):  x = 199..300mm   (98mm content + 3mm right bleed)
+    positions_mm = [0, 101, 199]
     for i, anta_name in enumerate(antas):
         anta_pdf = PdfReader(f"{ANTAS_DIR}/{anta_name}.pdf")
         anta_page = anta_pdf.pages[0]
-        tx = i * PANEL_W_MM * mm  # 0, 277.8, 555.6 pts
+        tx = positions_mm[i] * mm
         ty = 0
         page.merge_transformed_page(anta_page, Transformation().translate(tx=tx, ty=ty), expand=False)
     # Add crop marks overlay
