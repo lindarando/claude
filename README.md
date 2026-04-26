@@ -1,25 +1,40 @@
-# CODING AGENTS: READ THIS FIRST
+# `lindarando/claude` — print pipelines for CataList & Ultima Pagina
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Repo che raccoglie due progetti di stampa fatti partendo da mockup HTML/CSS:
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+| Progetto | Cosa | Cartella sorgenti | Output |
+|---|---|---|---|
+| **Cartoline Hic sunt libri** | 3 cartoline A6 (fronte + retro) per Ultima Pagina Quest @ Salone del Libro 2026 | `project/` | `Cartoline-Hic-sunt-libri-STAMPA{,-FLAT,-CMYK}.pdf` (con tallone) e `*-NOSTUB-*` (senza) |
+| **Pieghevole CataList** | Volantino A4 a fisarmonica 3 ante per CataList (Salone del Libro 2026) | `pieghevole/pieghevole-package/` | `pieghevole-out/lato-{A,B}{,-FLAT,-CMYK}.pdf` |
 
-## What you should do — IMPORTANT
+I sorgenti sono mockup HTML/CSS che il design tool genera per la preview. Gli script in root convertono ogni mockup nei PDF da mandare in stampa o caricare su Canva.
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Quick start
 
-**Find the primary design file under `project/` and read it top to bottom.** The chat transcripts will tell you which file the user was last iterating on. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```bash
+# Cartoline (con tallone)
+node generate-pdf.js
+# Cartoline (versione no-stub)
+node generate-pdf-nostub.js
+# Pieghevole CataList — entrambi i lati
+node render-antas.js && python3 compose-pieghevole.py
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+Per la conversione CMYK FOGRA39 (richiesta da molte tipografie) serve poi un passaggio Ghostscript con il profilo ICC ECI — vedi [`PRINT-PIPELINE.md`](./PRINT-PIPELINE.md).
 
-## About the design files
+## Documentazione
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+- **[`PRINT-PIPELINE.md`](./PRINT-PIPELINE.md)** — la "ricetta" tecnica riusabile per qualunque progetto di stampa che parte da HTML. Spiega il pattern, i tre formati di output, e tutti i gotcha che abbiamo incontrato (sub-pixel gap, bleed, CMYK, Canva, QR, Moiré). **Leggere questo prima di iniziare un nuovo progetto simile.**
+- **[`pieghevole/README.md`](./pieghevole/README.md)** — comandi e modifiche specifici per il pieghevole CataList.
+- **[`HANDOFF-CARTOLINE.md`](./HANDOFF-CARTOLINE.md)** — il README originale del bundle di Claude Design per le cartoline (è la "lettera" che il design tool ha allegato all'export).
+- **`chats/`** — transcript della chat originale di design per le cartoline (utile per capire le decisioni creative).
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Output finali (cosa scaricare per cosa)
 
-## Bundle contents
+Per ogni "famiglia" di file ci sono tre versioni con suffissi:
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Volantini Salone Hic sunt libri` project files (HTML prototypes, assets, components)
+- `*.pdf` — vector RGB (preview, archivio)
+- `*-FLAT.pdf` — raster RGB ad alta risoluzione, niente layer editabili (**per Canva**)
+- `*-CMYK.pdf` — raster CMYK FOGRA39 con profilo ICC embeddato (**per la tipografia**)
+
+Se la tipografia accetta RGB → puoi mandarle anche il `-FLAT` direttamente. Se ti chiedono PDF/X o CMYK con profilo ICC esplicito → usa `-CMYK`.
